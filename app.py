@@ -17,18 +17,18 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/buses")
-def get_buses():
+# @app.get("/buses")
+# def get_buses():
+
+
+@app.get("/hire")
+def get_cars():
     return [{"bus": "easy coach"}]
 
 
-@app.get("/rent")
-def get_cars():
-    pass
-
-
 @app.post("/hire")
-def save_cars(data: CatalogueModel):
-    hire = Hire(**data)
+def save(data: CatalogueModel):
+    hire = Hire(data.name, data.car_brand, data.image,
+                data.hire_fee, data.date_hire)
     hire.save()
     return hire.to_dict()

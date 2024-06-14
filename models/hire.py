@@ -3,7 +3,7 @@ from db import cursor, conn
 
 class Hire:
 
-    TABLE_NAME = "hire"
+    TABLE_NAME = "cars"
 
     def __init__(self, name, car_brand, image, hire_fee, date_hire):
         self.id = None
@@ -22,7 +22,7 @@ class Hire:
                        self.image, self.hire_fee, self.date_hire))
         conn.commit()
         self.id = cursor.lastrowid
-
+        
         return self
 
     def to_dict(self):
