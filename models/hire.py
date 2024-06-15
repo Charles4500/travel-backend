@@ -52,9 +52,8 @@ class Hire:
             return None
         hire = cls(row[1], row[2], row[3], row[4], row[5])
         hire.id = row[0]
-        
+
         return hire
-        
 
     @classmethod
     def create_table(cls):
@@ -70,7 +69,6 @@ class Hire:
         """
         cursor.execute(sql)
         conn.commit()
-        print("Hire out table created")
 
 
 Hire.create_table()
