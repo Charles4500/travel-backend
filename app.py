@@ -23,7 +23,9 @@ def read_root():
 
 @app.get("/hire")
 def get_cars():
-    return [{"bus": "easy coach"}]
+    cars = Hire.find_all()
+    
+    return cars
 
 
 @app.post("/hire")

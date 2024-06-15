@@ -22,7 +22,7 @@ class Hire:
                        self.image, self.hire_fee, self.date_hire))
         conn.commit()
         self.id = cursor.lastrowid
-        
+
         return self
 
     def to_dict(self):
@@ -34,6 +34,27 @@ class Hire:
             "hire_fee": self.hire_fee,
             "date_hire": self.date_hire
         }
+
+    @classmethod
+    def find_all(cls):
+        sql = """
+        SELECT cars.* FROM cars 
+        """
+        rows = cursor.execute(sql).fetchall()
+        print(rows)
+        return [
+            cls.row_to_instance(row).to_dict() for row in rows
+        ]
+
+    @classmethod
+    def row_to_instance(cls, row):
+        if row == None:
+            return None
+        hire = cls(row[1], row[2], row[3], row[4], row[5])
+        hire.id = row[0]
+        
+        return hire
+        
 
     @classmethod
     def create_table(cls):
