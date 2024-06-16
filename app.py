@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# from models.customers import Customer
 from models.hire import Hire
-from models.buses import Buses
-from front import CatalogueModel, BusesModel
+from models.bus import Buses
+from front import PrivateModel, PublicModel
 
 
 app = FastAPI()
@@ -17,18 +18,6 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/public")
-def get_buses():
-    pass
-
-
-@app.post('/public')
-def save(data: BusesModel):
-    buses = Buses(data.name, data.location_from,
-                  data.location_to, data.passengers, data.price)
-    buses.save()
-
-
 @app.get("/hire")
 def get_cars():
     cars = Hire.find_all()
@@ -37,8 +26,23 @@ def get_cars():
 
 
 @app.post("/hire")
-def save(data: CatalogueModel):
+def save(data: PrivateModel):
     hire = Hire(data.name, data.car_brand, data.image,
                 data.hire_fee, data.date_hire)
     hire.save()
     return hire.to_dict()
+
+
+@app.get("/bus")
+def get_buses():
+    buses = Buses.find_all_buses()
+
+    return buses
+
+
+@app.post("/bus")
+def save(data: PublicModel):
+    bus = Buses(data.name, data.location_from,
+                data.location_to, data.passengers, data.price)
+
+    return bus.to_dict()

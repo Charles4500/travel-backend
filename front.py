@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class CatalogueModel(BaseModel):
+class PrivateModel(BaseModel):
     name: str
     car_brand: str
     image: str
@@ -9,9 +9,16 @@ class CatalogueModel(BaseModel):
     date_hire: str
 
 
-class BusesModel(BaseModel):
+class PublicModel(BaseModel):
     name: str
     location_from: str
     location_to: str
     passengers: int
     price: int
+
+
+class Move(BaseModel):
+    location_from: str
+    location_to: str
+    price: int
+    customer_id: int
