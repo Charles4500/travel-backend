@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# from models.customers import Customer
+from models.tickets import Ticket
+from models.customers import Customer
 from models.hire import Hire
 from models.bus import Buses
 from front import PrivateModel, PublicModel
@@ -46,3 +47,6 @@ def save(data: PublicModel):
                 data.location_to, data.passengers, data.price)
 
     return bus.to_dict()
+
+
+        
