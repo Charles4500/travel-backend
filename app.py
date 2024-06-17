@@ -1,11 +1,14 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from db import conn, cursor
 
 
 
+
+from models.tickets import Ticket
 from models.hire import Hire
 from models.bus import Buses
-from front import PrivateModel, PublicModel
+from front import PrivateModel, PublicModel,TicketModel
 
 
 app = FastAPI()
@@ -49,3 +52,38 @@ def save(data: PublicModel):
 
     return bus.to_dict()
 
+
+@app.post("/tickets")
+async def book_ticket(request: TicketModel):
+    try:
+        bus = Buses.find_one(request.bus_id)
+        if not bus:
+            raise HTTPException(status_code=404, detail="Bus not found")
+        
+        if bus.passengers <= 0:
+            raise HTTPException(status_code=400, detail="No available seats")
+        
+        ticket = Ticket(request.location_from, request.location_to,  request.bus_id)
+        ticket.save()
+
+        # Reduce the number of available seats
+        cursor.execute("UPDATE buses SET passengers = passengers - 1 WHERE id = ?", (request.bus_id,))
+        conn.commit()
+
+        bus = Buses.find_one(request.bus_id)
+        
+        return {"message": "Ticket booked successfully", "available_seats": bus.passengers}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+    
+
+    
+        
+
+        
+
+       
+        
+       
+    
