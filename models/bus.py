@@ -4,7 +4,7 @@ class Buses:
 
     TABLE_BUSES = "buses"
 
-    def __init__(self, name, location_from, location_to, price, passengers=71):
+    def __init__(self, name, location_from, location_to,  passengers,price):
         self.id = None
         self.name = name
         self.location_from = location_from
@@ -99,7 +99,7 @@ Buses.create_table()
 # easycoach.save()
 # mashpoa = Buses("MashPoa", "Nakuru", "Kisii", 70, 1000)
 # mashpoa.save()
-# greenline = Buses("Greenline", "Nairobi", "Mombasa", 2200)
+# greenline = Buses("Greenline", "Nairobi", "Mombasa", 68,2200)
 # greenline.save()
 # climaxcoach = Buses("Climax coach", "Nairobi", "Kisumu", 53, 1500)
 # climaxcoach.save()
