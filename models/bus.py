@@ -1,6 +1,5 @@
 from db import cursor, conn
 
-
 class Buses:
 
     TABLE_BUSES = "buses"
@@ -25,6 +24,17 @@ class Buses:
 
         return self
 
+    def decrement_seat(self):
+        if self.passengers <= 0:
+            raise ValueError("No available seats")
+        
+        sql = f"""
+        UPDATE {self.TABLE_BUSES} SET passengers = passengers - 1 WHERE id = ?
+        """
+        cursor.execute(sql, (self.id,))
+        conn.commit()
+        self.passengers -= 1
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -34,7 +44,16 @@ class Buses:
             "passengers": self.passengers,
             "price": self.price
         }
-
+    
+    @classmethod
+    def find_one(cls, id):
+        sql = """
+            SELECT buses.* FROM buses
+            WHERE buses.id = ?
+        """
+        row = cursor.execute(sql, (id,)).fetchone()
+        return cls.row_to_instance(row)
+    
     @classmethod
     def find_all_buses(cls):
         sql = """
@@ -48,7 +67,7 @@ class Buses:
 
     @classmethod
     def row_to_instance(cls, row):
-        if row == None:
+        if row is None:
             return None
 
         bus = cls(row[1], row[2], row[3], row[4], row[5])
@@ -70,10 +89,10 @@ class Buses:
           """
         cursor.execute(sql)
         conn.commit()
-        print("Buses out table created")
-
+        print("Buses table created")
 
 Buses.create_table()
+
 
 #Hard coded the buses into the database
 # easycoach = Buses("EasyCoach", "Nairobi", "Nakuru", 67, 1200)

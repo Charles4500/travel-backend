@@ -17,8 +17,7 @@ class PublicModel(BaseModel):
     price: int
 
 
-class Move(BaseModel):
+class BookTicketRequest(BaseModel):
     location_from: str
     location_to: str
-    price: int
-    customer_id: int
+    bus_id: int
